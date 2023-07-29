@@ -23,7 +23,7 @@ You'll need a google maps API key to successfuly setup and run the project.
 
 The first step to testing or running this app is getting the code
 
-    git clone https://github.com/kennethOkwong/Meals-App.git
+    git clone https://github.com/kennethOkwong/FSE-Assistant.git
     .
     .
     flutter pub get
@@ -31,9 +31,9 @@ The first step to testing or running this app is getting the code
 Specify your API key in the application manifest android/app/src/main/AndroidManifest.xml:
 
     <manifest ...
-  <application ...
-    <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR API KEY HERE"/>
+    <application ...
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                android:value="YOUR API KEY HERE"/>
 
 To setup for iOS, specify your API key in the application delegate ios/Runner/AppDelegate.swift:
 
