@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -59,7 +57,7 @@ class FirebaseDataSource implements DataSource {
         return const Left(Failure(message: 'User not found'));
       }
       final user = UserDTO.fromFirebase(userCredetials.user!);
-      log(user.email);
+
       return Right(user);
     } on FirebaseAuthException catch (error) {
       return Left(Failure(
@@ -87,13 +85,11 @@ class FirebaseDataSource implements DataSource {
 
       return Right(UserDTO.fromFirebase(userCredetials.user!));
     } on FirebaseAuthException catch (error) {
-      log(error.toString());
       return Left(Failure(
         errorCode: error.code,
         message: error.message ?? 'Authentication Error',
       ));
     } catch (error) {
-      log(error.toString());
       return const Left(Failure(
         message: 'Unknown Authentication Error',
       ));

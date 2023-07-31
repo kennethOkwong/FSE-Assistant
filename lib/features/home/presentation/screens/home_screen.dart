@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../auth/presentation/screens/auth_screen.dart';
+import '../../../auth/presentation/controllers/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final authProviderMethods = ref.read(authStateNotifierProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: [
           TextButton(
             onPressed: () async {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) {
-                  return const AuthScreen();
-                },
-              ));
-              // await FirebaseAuthProvider.logOut();
+              context.go('/');
+              await authProviderMethods.logout();
             },
             child: const Text('Sign out'),
           ),

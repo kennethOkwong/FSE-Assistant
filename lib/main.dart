@@ -35,7 +35,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'FSE Assistant',
       theme: themeData,
       routerConfig: goRouter,
-      // showSemanticsDebugger: true,
     );
   }
 }

@@ -15,11 +15,11 @@ final goRouter = GoRouter(
     if (pref.getBool('is_first_launch') == null) {
       return '/onbaording';
     }
-    return '/auth';
+    return null;
   },
   routes: [
     GoRoute(
-      path: '/auth',
+      path: '/',
       builder: (context, state) => const AuthScreen(),
     ),
     GoRoute(

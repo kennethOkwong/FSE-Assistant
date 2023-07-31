@@ -1,4 +1,4 @@
-# FSE ASSISTANT
+# FSE ASSISTANT - Under development
 
 Welcome to FSE Assistant, a flutter mobile application to help Field Engineers working with ISPs carry out an hassle free wireless internet link survey.
 
@@ -57,7 +57,7 @@ Run the app to confirm that everything works
     flutter run
 
 ## UI/UX design
-UI/UX was designed by [Judith Emenike](https://www.linkedin.com/in/emenike-judith-158952176/)and the Hi Fi Figma file can be found [Here](https://www.figma.com/file/o1JvwCWHPA5ZEEwSzflD40/FIELD-SERVICE-ENGINEERING-ASSISTANT?type=design&node-id=65-5005&mode=design&t=0eCZ9QrY7kw4sjtj-0).
+UI/UX was designed by [Judith Emenike ](https://www.linkedin.com/in/emenike-judith-158952176/)and the Hi Fi Figma file can be found [Here](https://www.figma.com/file/o1JvwCWHPA5ZEEwSzflD40/FIELD-SERVICE-ENGINEERING-ASSISTANT?type=design&node-id=65-5005&mode=design&t=0eCZ9QrY7kw4sjtj-0).
 
 ## FREQUENTLY ASKED QUESTIONS (FAQs)
 1.	What is ‘FSE Assistant’ used for?

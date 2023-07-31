@@ -1,14 +1,14 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/resources/failure.dart';
 import '../../domain/entity/user.dart';
 import 'usecases_providers.dart';
 
-class AuthStateNotifier extends StateNotifier<Either<Failure, User>?> {
-  AuthStateNotifier(this.ref) : super(null) {
+class AuthStateNotifier
+    extends StateNotifier<AsyncValue<Either<Failure, User>>> {
+  AuthStateNotifier(this.ref) : super(const AsyncValue.loading()) {
     getUSer();
   }
 
@@ -20,7 +20,7 @@ class AuthStateNotifier extends StateNotifier<Either<Failure, User>?> {
 
   void getUSer() async {
     final user = await ref.read(getUserUseCaseProvider).execute();
-    state = user;
+    state = AsyncValue.data(user);
   }
 
   Future<Either<Failure, User>?> login(String email, String password) async {
@@ -36,8 +36,8 @@ class AuthStateNotifier extends StateNotifier<Either<Failure, User>?> {
   }
 }
 
-final authStateNotifierProvider =
-    StateNotifierProvider<AuthStateNotifier, Either<Failure, User>?>((ref) {
+final authStateNotifierProvider = StateNotifierProvider<AuthStateNotifier,
+    AsyncValue<Either<Failure, User>?>>((ref) {
   return AuthStateNotifier(ref);
 });
 
