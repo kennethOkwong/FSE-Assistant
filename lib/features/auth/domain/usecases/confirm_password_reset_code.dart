@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:fse_assistant/features/auth/domain/repository/user.dart';
 
-import '../../../../core/resources/failure.dart';
+import '../../../../core/models/failure.dart';
 
 abstract class ConfirmPasswordResetCodeUSeCase {
   Future<Either<Failure, void>> execute(String code, String password);

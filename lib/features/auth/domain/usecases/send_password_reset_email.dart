@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:fse_assistant/features/auth/domain/repository/user.dart';
 
-import '../../../../core/resources/failure.dart';
+import '../../../../core/models/failure.dart';
 
 abstract class SendPasswordResetEmailUseCase {
   Future<Either<Failure, void>> execute(String email);

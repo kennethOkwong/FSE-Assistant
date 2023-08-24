@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fse_assistant/config/theme_data.dart';
+import 'package:fse_assistant/core/resources/helper_functions.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-
 import 'loading_screen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -16,59 +13,27 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng? _currentLocation;
-  BitmapDescriptor? icon;
+  BitmapDescriptor? _icon;
 
-// Cargar imagen del Marker
+  @override
+  void initState() {
+    super.initState();
+    _getIcon();
+  }
+
+  // Cargar imagen del Marker
   void _getIcon() async {
     var bitMap = await BitmapDescriptor.fromAssetImage(
         const ImageConfiguration(size: Size(1, 1)),
         'assets/icons/location.png');
-    icon = bitMap;
-  }
-
-//Function to load current location
-  Future<LatLng?> _loadLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-
-    _getIcon();
-    log(icon.toString());
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return const LatLng(5.028232333078626, 7.978788464183496);
-      }
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return const LatLng(5.028232333078626, 7.978788464183496);
-      }
-    }
-
-    locationData = await location.getLocation();
-
-    if (locationData.latitude == null || locationData.longitude == null) {
-      return const LatLng(5.028232333078626, 7.978788464183496);
-    }
-    _currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
-
-    return _currentLocation!;
+    _icon = bitMap;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _loadLocation(),
+          future: HelperFunctions.loadLocation(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingScreen();
@@ -78,16 +43,17 @@ class _MapScreenState extends State<MapScreen> {
                 GoogleMap(
                   mapType: MapType.terrain,
                   initialCameraPosition: CameraPosition(
-                    target: snapshot.data!,
+                    target: LatLng(snapshot.data!.lat, snapshot.data!.lng),
                     zoom: 14,
                   ),
                   markers: {
                     Marker(
                       markerId: const MarkerId('L1'),
-                      position: snapshot.data!,
-                      icon: icon!,
+                      position: LatLng(snapshot.data!.lat, snapshot.data!.lng),
+                      icon: _icon!,
                     )
                   },
+                  onTap: (argument) {},
                 ),
                 Positioned(
                   top: 30,
@@ -103,11 +69,16 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: LocationBottonSheet(initialAddress: 'Initial Address'),
+                  child: LocationBottonSheet(
+                    address: snapshot.data!.address,
+                    onPressed: () {
+                      Navigator.of(context).pop(snapshot.data);
+                    },
+                  ),
                 )
               ],
             );
@@ -119,10 +90,12 @@ class _MapScreenState extends State<MapScreen> {
 class LocationBottonSheet extends StatefulWidget {
   const LocationBottonSheet({
     super.key,
-    required this.initialAddress,
+    required this.address,
+    required this.onPressed,
   });
 
-  final String initialAddress;
+  final String address;
+  final VoidCallback onPressed;
 
   @override
   State<LocationBottonSheet> createState() => _LocationBottonSheetState();
@@ -157,7 +130,7 @@ class _LocationBottonSheetState extends State<LocationBottonSheet> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Text(
@@ -194,7 +167,7 @@ class _LocationBottonSheetState extends State<LocationBottonSheet> {
             child: TextField(
               autocorrect: false,
               textCapitalization: TextCapitalization.sentences,
-              controller: TextEditingController(text: widget.initialAddress),
+              controller: TextEditingController(text: widget.address),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: const Icon(
@@ -222,7 +195,7 @@ class _LocationBottonSheetState extends State<LocationBottonSheet> {
             width: double.infinity,
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: widget.onPressed,
               child: const Text(
                 'Confirm',
                 style: TextStyle(fontWeight: FontWeight.bold),

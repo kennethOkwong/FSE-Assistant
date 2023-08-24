@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:fse_assistant/core/resources/failure.dart';
+import 'package:fse_assistant/core/models/failure.dart';
 import 'package:fse_assistant/features/auth/domain/entity/user.dart';
 
 abstract class UserRepository {

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/resources/failure.dart';
+import '../../../../core/models/failure.dart';
 import '../../domain/entity/user.dart';
 import 'usecases_providers.dart';
 

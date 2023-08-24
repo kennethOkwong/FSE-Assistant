@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:fse_assistant/core/resources/failure.dart';
+import 'package:fse_assistant/core/models/failure.dart';
 import 'package:fse_assistant/features/auth/data/data%20sources/datasource.dart';
 import 'package:fse_assistant/features/auth/data/models/user_model.dart';
 

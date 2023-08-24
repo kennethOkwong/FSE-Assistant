@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:fse_assistant/features/auth/data/models/user_model.dart';
 
-import '../../../../core/resources/failure.dart';
+import '../../../../core/models/failure.dart';
 
 abstract class DataSource {
   Future<Either<Failure, void>> initialise();

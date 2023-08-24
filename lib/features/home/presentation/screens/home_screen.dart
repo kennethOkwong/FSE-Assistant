@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../auth/presentation/controllers/provider.dart';
+import '../widgets/custom_drawer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -14,22 +13,12 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final authProviderMethods = ref.read(authStateNotifierProvider.notifier);
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: () async {
-              context.go('/');
-              await authProviderMethods.logout();
-            },
-            child: const Text('Sign out'),
-          ),
-        ],
-      ),
+      appBar: AppBar(),
       body: const Center(
         child: Text('Home Screen'),
       ),
+      drawer: const CustomDrawer(),
     );
   }
 }

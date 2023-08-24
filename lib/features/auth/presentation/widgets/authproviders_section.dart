@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fse_assistant/config/theme_data.dart';
+
+import '../../../../config/theme_data.dart';
 
 class AuthProvidersSection extends StatelessWidget {
   const AuthProvidersSection({super.key, required this.isLogin});

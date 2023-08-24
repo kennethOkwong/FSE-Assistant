@@ -19,7 +19,7 @@ FSE Assistant allows users to:
 7. Shared preferences
 
 ## Getting Started
-You'll need a google maps API key to successfuly setup and run the project.
+In addition firebase Auth and FireStore access, you'll need a google maps API key to successfuly setup and run the project.
 
 The first step to testing or running this app is getting the code
 

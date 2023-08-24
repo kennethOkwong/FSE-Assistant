@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fse_assistant/core/screens/error_screen.dart';
-import 'package:fse_assistant/core/screens/loading_screen.dart';
-import 'package:fse_assistant/features/home/presentation/screens/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/screens/error_screen.dart';
 import '../../../../core/widgets/custom_snackbar.dart';
+import '../../../base stations/presenattion/screens/request_add_basestation_screen.dart';
 import '../controllers/provider.dart';
 import '../widgets/authproviders_section.dart';
 import '../widgets/email_auth_section.dart';
@@ -28,7 +27,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         data: (data) {
           return data!.fold(
             (l) => authWidget(authproviderMethods),
-            (r) => const HomeScreen(),
+            (r) {
+              return const RequestAddBaseStationsScreen();
+            },
           );
         },
         error: (error, stackTrace) => const ErrorScreen(),
@@ -77,6 +78,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             authDetails.email,
                             authDetails.password,
                           );
+                          ref.read(authProvider.notifier).toggleAuthPage();
                         }
                         userOrFailureObject!.fold(
                           (l) => customSnackbar(
@@ -84,7 +86,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             content: l.message,
                             success: false,
                           ),
-                          (r) => context.go('/home'),
+                          (r) {
+                            context.go('/request_add_base_station');
+                          },
                         );
                       },
                       onScreenChanged: () async {

@@ -21,14 +21,22 @@ var lightColorScheme = ColorScheme.fromSeed(
 );
 
 final themeData = ThemeData.light().copyWith(
-  colorScheme: lightColorScheme,
-  useMaterial3: true,
-  textTheme: GoogleFonts.interTextTheme(),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
+    colorScheme: lightColorScheme,
+    useMaterial3: true,
+    textTheme: GoogleFonts.interTextTheme(),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: lightColorScheme.primary,
+        foregroundColor: lightColorScheme.onPrimary,
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.green,
+      foregroundColor: AppColors.white,
+    ),
+    scaffoldBackgroundColor: Colors.grey.shade100,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: lightColorScheme.primary,
       foregroundColor: lightColorScheme.onPrimary,
-    ),
-  ),
-  scaffoldBackgroundColor: AppColors.white,
-);
+      shape: const CircleBorder(),
+    ));

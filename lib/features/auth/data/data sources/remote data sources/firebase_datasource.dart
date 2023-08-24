@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../../../../../core/resources/failure.dart';
+import '../../../../../core/models/failure.dart';
 import '../datasource.dart';
 import '/features/auth/data/models/user_model.dart';
 

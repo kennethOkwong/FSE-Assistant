@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/resources/failure.dart';
+import '../../../../core/models/failure.dart';
 import '../entity/user.dart';
 import 'package:fse_assistant/features/auth/domain/repository/user.dart';
 
