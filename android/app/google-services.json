@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "263473156021",
+    "project_id": "fse-assistant",
+    "storage_bucket": "fse-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263473156021:android:259c4213c24e95d3b9d3fc",
+        "android_client_info": {
+          "package_name": "com.example.fse_assistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263473156021-rkub855aj10nlhqhllcemdppecau5j50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZQGU04ExY4ZB5AHNY5OW5yLgVwKR4sRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263473156021-rkub855aj10nlhqhllcemdppecau5j50.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "263473156021-bqdpst99n91m0ivk4d9p65uhu0oqhv5l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cadenny.fseAssistant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:fse_assistant/core/utils/app_images.dart';
+import 'package:fse_assistant/core/utils/widget_helpers.dart';
+import 'package:fse_assistant/features/authentication/presentation/view%20models/auth_view_model.dart';
+import 'package:fse_assistant/features/base/base_ui.dart';
+
+import '../../../../core/app theme/app_colors.dart';
+
+class ResetPasswordEmailScreen extends StatelessWidget {
+  ResetPasswordEmailScreen({super.key});
+  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    final width = deviceWidth(context);
+    // final height = deviceHeight(context);
+
+    return BaseView<AuthViewModel>(
+      onModelReady: (model) {},
+      builder: (context, model, child) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20
+                  // bottom: 30,
+                  ),
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    AppImages.resetPassword1,
+                    width: width * 0.6,
+                    height: width * 0.6,
+                  ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
+                  Text(
+                    'Forgot Password',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                          fontSize: width * 0.045,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Enter the email address associated with your account',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppColors.grey,
+                          fontSize: width * 0.040,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Row(
+                    children: [
+                      Text('Email'),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                      ),
+                      controller: _emailController,
+                      validator: (value) {
+                        if (value == null ||
+                            value.trim().isEmpty ||
+                            !value.contains('@')) {
+                          return 'Invalid Email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                model.sendResetCode(
+                                    context: context,
+                                    email: _emailController.text);
+                              }
+                            },
+                            child: const Text(
+                              'Next',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
