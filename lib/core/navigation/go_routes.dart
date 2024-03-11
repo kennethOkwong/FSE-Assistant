@@ -8,7 +8,9 @@ import 'package:fse_assistant/features/base%20station/presentation/views/base_st
 import 'package:fse_assistant/features/base%20station/presentation/views/number_of_stations_to_add_screen.dart';
 import 'package:fse_assistant/features/base%20station/presentation/views/pick_map_location_screen.dart';
 import 'package:fse_assistant/features/dashbaord/presentation/views/faqs_screen.dart';
+import 'package:fse_assistant/features/dashbaord/presentation/views/search_survey_location.dart';
 import 'package:fse_assistant/features/dashbaord/presentation/views/terms_screen.dart';
+import 'package:fse_assistant/features/survey/presentation/views/base_station_scan.dart';
 import 'package:fse_assistant/features/survey/presentation/views/surveys_history_screem.dart';
 import 'package:go_router/go_router.dart';
 
@@ -89,6 +91,16 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.surveyHistory,
       builder: (context, state) => const SurveyHistoryScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.searchLocation,
+      builder: (context, state) => const SearchLocationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.scanStation,
+      builder: (context, state) => BaseStationsScanScreen(
+        surveyLocation: state.extra as PlaceModel,
+      ),
     ),
   ],
 );

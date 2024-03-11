@@ -97,7 +97,16 @@ class PickMapLocationScreen extends StatelessWidget {
                       child: Container(
                         // height: 200,
                         width: deviceWidth(context),
-                        color: AppColors.white,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 5,
+                              offset: const Offset(5, 0),
+                            ),
+                          ],
+                        ),
                         child: Padding(
                           padding: paddingA(15),
                           child: Column(

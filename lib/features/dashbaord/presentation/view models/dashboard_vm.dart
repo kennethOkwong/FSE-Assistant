@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -18,11 +19,14 @@ class DashBoardVM extends BaseViewModel {
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
 
+  TextEditingController locationController = TextEditingController();
+
   final defaultLocation = LatLng(5.019563584179674, 7.888179508520339);
   PlaceModel? userCurrentLocation;
   PlaceModel? userLastLocation;
   Marker? locationMaker;
-  PlaceModel? pickedAddress;
+  PlaceModel? surveyAddress;
+  List<PlaceModel> searchedAdresses = [];
 
   void setUserCurrentLocation(PlaceModel place) {
     userCurrentLocation = place;
@@ -39,9 +43,23 @@ class DashBoardVM extends BaseViewModel {
     notifyListeners();
   }
 
-  void setPickedAddress(PlaceModel place) {
-    pickedAddress = place;
+  void setSurveyAddress(PlaceModel place) {
+    surveyAddress = place;
     notifyListeners();
+  }
+
+  void addAddress(List<PlaceModel> addresses) {
+    searchedAdresses.clear();
+    searchedAdresses.addAll(addresses);
+    notifyListeners();
+  }
+
+  Future<void> animateMap(LatLng position) async {
+    final GoogleMapController controller = await mapController.future;
+
+    controller.moveCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(tilt: 50, zoom: 15, target: position),
+    ));
   }
 
   Future<void> getUserLocation() async {
@@ -49,12 +67,32 @@ class DashBoardVM extends BaseViewModel {
       final userLastLocation = await userLocalStorage.getUserLastLocation();
       if (userLastLocation != null) {
         setUserLastLocation(userLastLocation);
+        setSurveyAddress(userLastLocation);
+        await loadMapIcon(
+            location: LatLng(
+          userLastLocation.lat ?? 0.00,
+          userLastLocation.lng ?? 0.00,
+        ));
+        await animateMap(LatLng(
+          userLastLocation.lat ?? 0.00,
+          userLastLocation.lng ?? 0.00,
+        ));
       }
 
       final userCurrentLocation = await HelperFunctions().getUserLocation();
       if (userCurrentLocation != null) {
         setUserCurrentLocation(userCurrentLocation);
-        return;
+        setSurveyAddress(userCurrentLocation);
+
+        await loadMapIcon(
+            location: LatLng(
+          userCurrentLocation.lat ?? 0.00,
+          userCurrentLocation.lng ?? 0.00,
+        ));
+        await animateMap(LatLng(
+          userCurrentLocation.lat ?? 0.00,
+          userCurrentLocation.lng ?? 0.00,
+        ));
       }
     } catch (error) {
       //
@@ -72,6 +110,23 @@ class DashBoardVM extends BaseViewModel {
         .asUint8List();
 
     late Marker marker;
+
+    if (location != null) {
+      marker = Marker(
+        markerId: const MarkerId('Location'),
+        position: location,
+        icon: BitmapDescriptor.fromBytes(icon),
+      );
+      setLocationMaker(marker);
+      return;
+    }
+
+    marker = Marker(
+      markerId: const MarkerId('Location'),
+      position: defaultLocation,
+      icon: BitmapDescriptor.fromBytes(icon),
+    );
+    setLocationMaker(marker);
 
     if (userCurrentLocation != null) {
       marker = Marker(
@@ -99,12 +154,6 @@ class DashBoardVM extends BaseViewModel {
       return;
     }
 
-    marker = Marker(
-      markerId: const MarkerId('Location'),
-      position: defaultLocation,
-      icon: BitmapDescriptor.fromBytes(icon),
-    );
-    setLocationMaker(marker);
     return;
   }
 
@@ -122,10 +171,39 @@ class DashBoardVM extends BaseViewModel {
         address: address,
       );
 
-      setPickedAddress(place);
+      setSurveyAddress(place);
       stopLoader();
     } catch (error) {
       stopLoader();
+    }
+  }
+
+  Future<void> goToSearchAddress(BuildContext context) async {
+    final PlaceModel? location =
+        await context.push(AppRoutes.searchLocation) as PlaceModel?;
+
+    if (location != null) {
+      setSurveyAddress(location);
+      await Future.delayed(const Duration(seconds: 2));
+      showCustomToast('Picked Location updated', success: true);
+      loadMapIcon(location: LatLng(location.lat ?? 0.00, location.lng ?? 0.00));
+      animateMap(LatLng(location.lat ?? 0.00, location.lng ?? 0.00));
+    }
+  }
+
+  //function to search places using google maps API
+  Future<void> searchPlaces(String keyword) async {
+    final responseBody = await stationsRepository.searPlaces(keyword: keyword);
+
+    if (responseBody != null && responseBody.isNotEmpty) {
+      final jsonData = jsonDecode(responseBody);
+      // showCustomToast(places.toString());
+      final List<dynamic> searchObjects = jsonData['results'];
+      final places = searchObjects
+          .map((place) => PlaceModel.fromGoogleJson(place))
+          .toList();
+      addAddress(places);
+      notifyListeners();
     }
   }
 
