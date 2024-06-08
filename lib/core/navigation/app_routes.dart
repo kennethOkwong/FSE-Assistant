@@ -16,4 +16,5 @@ class AppRoutes {
   static const String surveyHistory = '/survey_history';
   static const String searchLocation = '/search_location';
   static const String scanStation = '/scan_station';
+  static const String completeSurvey = '/complete_survey';
 }

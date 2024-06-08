@@ -11,6 +11,7 @@ import 'package:fse_assistant/features/dashbaord/presentation/views/faqs_screen.
 import 'package:fse_assistant/features/dashbaord/presentation/views/search_survey_location.dart';
 import 'package:fse_assistant/features/dashbaord/presentation/views/terms_screen.dart';
 import 'package:fse_assistant/features/survey/presentation/views/base_station_scan.dart';
+import 'package:fse_assistant/features/survey/presentation/views/complete_survey.dart';
 import 'package:fse_assistant/features/survey/presentation/views/surveys_history_screem.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,6 +20,7 @@ import '../../features/dashbaord/presentation/views/dashboard_screen.dart';
 import '../../features/onboading/presentation/views/page_404.dart';
 import '../../features/onboading/presentation/views/slider_screen.dart';
 import '../../features/onboading/presentation/views/splash_screen.dart';
+import '../../features/survey/domain/models/base_station_data_model.dart';
 import 'app_routes.dart';
 
 final goRouter = GoRouter(
@@ -100,6 +102,12 @@ final goRouter = GoRouter(
       path: AppRoutes.scanStation,
       builder: (context, state) => BaseStationsScanScreen(
         surveyLocation: state.extra as PlaceModel,
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.completeSurvey,
+      builder: (context, state) => CompleteSurveyScreen(
+        stationsFound: state.extra as List<BaseStationDataModel>,
       ),
     ),
   ],

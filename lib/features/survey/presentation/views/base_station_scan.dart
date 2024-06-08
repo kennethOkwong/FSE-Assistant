@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fse_assistant/core/app%20theme/app_colors.dart';
+import 'package:fse_assistant/core/navigation/app_routes.dart';
 import 'package:fse_assistant/features/base%20station/domain/models/place_model.dart';
 import 'package:fse_assistant/features/base/base_ui.dart';
 import 'package:fse_assistant/features/survey/presentation/widgets/stations_found_widget.dart';
@@ -105,7 +106,10 @@ class _BaseStationsScanScreenState extends State<BaseStationsScanScreen> {
                       child: model.surveyData.isEmpty
                           ? const NoBaseStationsWidget()
                           : BaseStationsFoundWidget(
-                              onTap: () {},
+                              onTap: () {
+                                context.push(AppRoutes.completeSurvey,
+                                    extra: model.surveyData);
+                              },
                               numberOfStations: model.surveyData.length,
                             ),
                     ),

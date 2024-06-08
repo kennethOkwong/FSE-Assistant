@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:fse_assistant/core/navigation/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/app theme/app_colors.dart';
 import '../../../../core/utils/widget_helpers.dart';
 
 class BaseStationsFoundWidget extends StatelessWidget {
@@ -54,7 +53,7 @@ class BaseStationsFoundWidget extends StatelessWidget {
                   onTap();
                 },
                 child: const Text(
-                  'Full Report',
+                  'Complete Survey',
                 ),
               ),
             ),

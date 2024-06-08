@@ -1,0 +1,30 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+  lane :firebase do
+  desc "Uploads an APK file to firebase app distribution"
+  apk_path = "../build/app/outputs/flutter-apk/app-release.apk"
+  release_note_path = "firebase_release_note.txt"
+  testers_path = "firebase_testers.txt"
+      sh "flutter clean"
+      sh "fvm flutter pub get"
+      sh "flutter build apk"
+      release = firebase_app_distribution(
+          app: "1:263473156021:android:259c4213c24e95d3b9d3fc",
+          android_artifact_path: apk_path,
+          release_notes_file: release_note_path,
+          testers: testers_path,
+      )
+  end
